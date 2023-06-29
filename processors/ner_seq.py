@@ -234,7 +234,41 @@ class CluenerProcessor(DataProcessor):
             examples.append(InputExample(guid=guid, text_a=text_a, labels=labels))
         return examples
 
+class OursProcessor(DataProcessor):
+    """Processor for the chinese ner data set."""
+
+    def get_train_examples(self, data_dir):
+        """See base class."""
+        return self._create_examples(self._read_json(os.path.join(data_dir, "train.json")), "train")
+
+    def get_dev_examples(self, data_dir):
+        """See base class."""
+        return self._create_examples(self._read_json(os.path.join(data_dir, "dev.json")), "dev")
+
+    def get_test_examples(self, data_dir):
+        """See base class."""
+        return self._create_examples(self._read_json(os.path.join(data_dir, "test.json")), "test")
+
+    def get_labels(self):
+        """See base class."""
+        return ["X", "B-飞行器", "B-单兵武器", "B-炸弹", "B-装甲车辆", "B-火炮", "B-导弹", "B- 舰船舰艇", "B-太空装备", "B-其他武器装备",
+                "I-飞行器", "I-单兵武器", "I-炸弹", "I-装甲车辆", "I-火炮", "I-导弹", "I- 舰船舰艇", "I-太空装备", "I-其他武器装备",
+                "S-飞行器", "S-单兵武器", "S-炸弹", "S-装甲车辆", "S-火炮", "S-导弹", "S- 舰船舰艇", "S-太空装备", "S-其他武器装备",
+                "O","[START]", "[END]"]
+
+    def _create_examples(self, lines, set_type):
+        """Creates examples for the training and dev sets."""
+        examples = []
+        for (i, line) in enumerate(lines):
+            guid = "%s-%s" % (set_type, i)
+            text_a= line['words']
+            # BIOS
+            labels = line['labels']
+            examples.append(InputExample(guid=guid, text_a=text_a, labels=labels))
+        return examples
+
 ner_processors = {
     "cner": CnerProcessor,
-    'cluener':CluenerProcessor
+    'cluener':CluenerProcessor,
+    "ours":OursProcessor
 }
