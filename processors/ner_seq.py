@@ -83,6 +83,8 @@ def convert_examples_to_features(examples,label_list,max_seq_length,tokenizer,
         if isinstance(example.text_a,list):
             example.text_a = " ".join(example.text_a)
         tokens = tokenizer.tokenize(example.text_a)
+        # print(label_map)
+        # print(example.labels)
         label_ids = [label_map[x] for x in example.labels]
         # Account for [CLS] and [SEP] with "- 2".
         special_tokens_count = 2
@@ -251,9 +253,9 @@ class OursProcessor(DataProcessor):
 
     def get_labels(self):
         """See base class."""
-        return ["X", "B-飞行器", "B-单兵武器", "B-炸弹", "B-装甲车辆", "B-火炮", "B-导弹", "B- 舰船舰艇", "B-太空装备", "B-其他武器装备",
-                "I-飞行器", "I-单兵武器", "I-炸弹", "I-装甲车辆", "I-火炮", "I-导弹", "I- 舰船舰艇", "I-太空装备", "I-其他武器装备",
-                "S-飞行器", "S-单兵武器", "S-炸弹", "S-装甲车辆", "S-火炮", "S-导弹", "S- 舰船舰艇", "S-太空装备", "S-其他武器装备",
+        return ["X", "B-飞行器", "B-单兵武器", "B-炸弹", "B-装甲车辆", "B-火炮", "B-导弹", "B-舰船舰艇", "B-太空装备", "B-其他武器装备",
+                "I-飞行器", "I-单兵武器", "I-炸弹", "I-装甲车辆", "I-火炮", "I-导弹", "I-舰船舰艇", "I-太空装备", "I-其他武器装备",
+                "S-飞行器", "S-单兵武器", "S-炸弹", "S-装甲车辆", "S-火炮", "S-导弹", "S-舰船舰艇", "S-太空装备", "S-其他武器装备",
                 "O","[START]", "[END]"]
 
     def _create_examples(self, lines, set_type):
